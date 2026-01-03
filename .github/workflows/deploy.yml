@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ] # Переконайтеся, що ваша гілка називається main (або master)
+    branches: [ main ] 
 
 permissions:
   contents: read
@@ -20,9 +20,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # Ми прибираємо кешування, бо у вас немає package-lock.json
+          # cache: 'npm' 
 
       - name: Install dependencies
+        # npm install створить необхідні файли прямо під час роботи
         run: npm install
 
       - name: Build
@@ -31,7 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist # Vite складає готовий сайт у папку dist
+          path: ./dist
 
   deploy:
     environment:
